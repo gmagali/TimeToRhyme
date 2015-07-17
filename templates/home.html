@@ -1,0 +1,64 @@
+
+{% load staticfiles %}
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" href="{% static 'TimeToRhyme/style.css' %}" />
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Time To Rhyme</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+</head>
+<body>
+
+<div id="slider">
+	<div id="tooplate_wrapper">
+        <div id="tooplate_sidebar">
+
+            <div id="header">
+                <h1>Time To <br/> <br/> Rhyme</h1>
+            </div>
+
+            <div id="menu">
+                <ul class="navigation">
+                    <li class="selected menu_01"><a href="#" style="background: none ; border: hidden;color: #fff;font-size: 18px">Home</a></li>
+                    <li class="menu_02"><input type="submit" value="Find a Rhyme " name="Notheme" id="Notheme" form="myform" style="background: none ; border: hidden;color: #fff;font-size: 18px"></li>
+                    <li class="menu_03"><input type="submit" value="Find Rhyme by theme " name="Theme" id="Theme" form="myform" style=" background: none; border: hidden; color: #fff;font-size: 18px " ></li>
+                    <li class="menu_04"><input type="submit" value="Find synonyms " name="synonyms" id="synonyms" form="myform" style=" background: none; border: hidden; color: #fff;font-size: 18px " ></li>
+                    <li class="menu_05"><a href="/aboutUs/"style="background: none ; border: hidden;color: #fff;font-size: 18px">About Us</a></li>
+                </ul>
+            </div>
+		</div> <!-- end of sidebar -->
+        <div id="content">
+<form action= "/home/" method="GET" id="myform">
+<h2>My song</h2>
+<textarea cols="40" rows="15" name="MySong" id="MySong">{{ song }}</textarea>
+    <br/>
+     <br/>
+<h2> {{ word }}</h2>
+
+    {% for i in rhymeList %}
+
+      <h3> {{ i }} , </h3>
+    {% endfor %}
+
+</form>
+
+</div>
+
+    </div>
+
+    <div class="cleaner"></div>
+</div>
+
+</body>
+</html>
+
