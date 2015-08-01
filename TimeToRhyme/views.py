@@ -1,4 +1,4 @@
-__author__ = 'gil'
+
 
 from django.shortcuts import render_to_response
 import find_rhyme
@@ -27,12 +27,10 @@ def home(request):
             tmp=" ".join(tmp).split('\r')
             tmp="".join(tmp).split(' ')
             tmp = find_rhyme.DeletBlancks(tmp)
-            for i in tmp:
-                find_rhyme.setPoint(i)
-            theme=find_rhyme.whatTheTheme()
+            list=find_rhyme.makeCategoriesList(" ".join(tmp))
             word='Words that rhymes with '+tmp[len(tmp)-1]
             x=tmp[len(tmp)-1]
-            rhymeList=find_rhyme.its_rhyme(theme,x)
+            rhymeList=find_rhyme.its_rhyme1(list,x)
             return render_to_response('home.html',{'song':song,'rhymeList':rhymeList ,'word':word})
         else:
             song=""
@@ -48,7 +46,7 @@ def home(request):
             tmp = find_rhyme.DeletBlancks(tmp)
             word=tmp[len(tmp)-1]+' synonyms'
             rhymeList=find_rhyme.Find_synonyms(tmp[len(tmp)-1])
-            print rhymeList
+
             return render_to_response('home.html',{'song':song,'rhymeList':rhymeList ,'word':word})
         else:
             song=""

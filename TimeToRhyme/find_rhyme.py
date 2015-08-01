@@ -1,26 +1,9 @@
 __author__ = 'gil'
 
 from nltk.corpus import wordnet
-import re
-song_words_theme ={}
+
+
 rhymes=[]
-
-
-# initial dic from txt file according to theme
-def makeDic():
-    f = open('TimeToRhyme/words.txt', 'r')
-    stringtp = re.sub(r'\(.+?\)\s*', '', f.read())
-    tmp=stringtp.split('#')
-    j=0;
-    while j<len(tmp):
-        ans=tmp[j]
-        ans= tmp[j].split('\n')
-        ans=" ".join(ans).split(' ')
-        song_words_theme[ans[1]]=ans[2:]
-        j=j+1
-    for item in song_words_theme.values():
-         item.append(0)
-
 
 
 # initial dic from txt file according to theme
@@ -36,28 +19,6 @@ def makeDicRhyms():
         ans="".join(ans).split(',')
         rhymes.append(ans)
         j=j+1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# set points to each theme acoording to the song words
-def setPoint(word):
-    for i in song_words_theme.keys():
-        if word in song_words_theme[i]:
-            N=len(song_words_theme[i])
-            song_words_theme[i][N-1]=song_words_theme[i][N-1]+1
-
 
 
 # find list of rhyme in acoording to theme
@@ -83,16 +44,6 @@ def its_rhyme_test( word):
 
 
 
-# return the song theme until now
-def whatTheTheme():
-    max=0
-    songTheme=''
-    for theme in song_words_theme.keys():
-        N= len(song_words_theme[theme])
-        if song_words_theme[theme][N-1]> max :
-            max=song_words_theme[theme][N-1]
-            songTheme=theme
-    return songTheme
 
 def DeletBlancks (list):
     ans=[]
@@ -111,5 +62,59 @@ def Find_synonyms(word):
             tmp.append( lemma.name())
 
     return set(tmp)
+
+
+import nltk
+def rhyme(inp, level):
+     entries = nltk.corpus.cmudict.entries()
+     syllables = [(word, syl) for word, syl in entries if word == inp]
+     rhymes = []
+     for (word, syllable) in syllables:
+             rhymes += [word for word, pron in entries if pron[-level:] == syllable[-level:]]
+     return set(rhymes)
+
+
+
+def its_rhyme1(listWords, word):
+    ans=[]
+
+    for newword in listWords:
+        if doTheyRhyme(newword, word):
+            ans.append(newword)
+    return ans
+
+
+def doTheyRhyme ( word1, word2 ):
+  # first, we don't want to report 'glue' and 'unglue' as rhyming words
+  # those kind of rhymes are LAME
+  if word1.find ( word2 ) == len(word1) - len ( word2 ):
+      return False
+  if word2.find ( word1 ) == len ( word2 ) - len ( word1 ):
+      return False
+
+  return word1 in rhyme ( word2, 2 )
+
+
+
+
+
+from nltk.corpus import wordnet as wn
+
+def makeCategoriesList(text):
+    categotyList=[]
+    for word in nltk.word_tokenize(text):
+        try:
+            word = wn.synset(word+'.n.01')
+            theme=word.hypernyms()
+            for lemma in theme[0].lemmas():
+                     ans= lemma.name()
+            em=wn.synset(ans+".n.01")
+            newwords=em.hyponyms()
+            for sys in newwords:
+                     categotyList.append(sys.lemmas()[0].name())
+        except Exception , e :
+            pass
+    return set(categotyList)
+
 
 
