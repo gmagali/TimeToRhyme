@@ -21,15 +21,7 @@ def makeDicRhyms():
         j=j+1
 
 
-# find list of rhyme in acoording to theme
-def its_rhyme(subject, word):
-    rhymeList=[]
-    endWord=word[len(word)-3:]
-    N= len(song_words_theme[subject])
-    for i in song_words_theme[subject][:N-2]:
-        if endWord == i[len(i)-3:]:
-            rhymeList.append(i)
-    return rhymeList
+
 
 
 # find list of rhime
